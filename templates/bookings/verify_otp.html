@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm mt-5">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Verify Your Email</h3>
+                <p class="text-center text-muted mb-4">
+                    We've sent a 6-digit OTP to <strong>{{ user.email }}</strong>.
+                    <br><small>Please enter it below to confirm your booking.</small>
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="otp_code" class="form-label">Enter OTP Code</label>
+                        <input type="text" class="form-control form-control-lg text-center letter-spacing-2"
+                            id="otp_code" name="otp_code" maxlength="6" pattern="\d{6}" placeholder="123456" required
+                            autocomplete="off" autofocus>
+                        <div class="form-text text-center">Code expires in 5 minutes.</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Verify & Proceed</button>
+                        <a href="{% url 'booking_detail' booking.id %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .letter-spacing-2 {
+        letter-spacing: 0.5em;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock %}

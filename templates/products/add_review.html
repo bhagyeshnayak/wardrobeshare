@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Write a Review - {{ product.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Write a Review</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Product: <span class="text-primary">{{ product.title }}</span></h5>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Rating -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Rating</label>
+                            <div class="rating-input">
+                                <div class="btn-group" role="group" aria-label="Rating">
+                                    {% for i in "12345" %}
+                                    <input type="radio" class="btn-check" name="rating" id="rating{{ forloop.counter }}"
+                                        value="{{ forloop.counter }}" required>
+                                    <label class="btn btn-outline-warning" for="rating{{ forloop.counter }}">
+                                        {{ forloop.counter }} <i class="bi bi-star-fill"></i>
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-text">Select a star rating from 1 to 5.</div>
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="mb-4">
+                            <label for="comment" class="form-label fw-bold">Your Review</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="5" required
+                                placeholder="Share your experience with this product..."></textarea>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-4">Submit Review</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Details - WardrobeShare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Booking Details</h2>
+
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Product Information</h4>
+                </div>
+                <div class="card-body">
+                    <h5>{{ booking.product.title }}</h5>
+                    <p class="text-muted">{{ booking.product.description }}</p>
+                    <p><strong>Owner:</strong> {{ booking.product.owner.username }}</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Booking Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Borrower:</strong> {{ booking.borrower.username }}</p>
+                            <p><strong>Start Date:</strong> {{ booking.start_date }}</p>
+                            <p><strong>End Date:</strong> {{ booking.end_date }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Total Days:</strong> {{ booking.total_days }}</p>
+                            <p><strong>Price per Day:</strong> ₹{{ booking.product.price_per_day }}</p>
+                            <p><strong>Total Price:</strong> ₹{{ booking.total_price }}</p>
+                        </div>
+                    </div>
+                    <p><strong>Status:</strong> <span class="badge bg-info">{{ booking.get_status_display }}</span></p>
+                    {% if booking.notes %}
+                    <p><strong>Notes:</strong> {{ booking.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Return Product Section -->
+            {% if booking.status == 'confirmed' %}
+            <div class="card mb-4 border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Return Product</h5>
+                </div>
+                <div class="card-body">
+                    <p>Mark this booking as returned. <strong>Simulate late return by changing the date below.</strong>
+                    </p>
+                    <form method="post" action="{% url 'return_product' booking.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="return_date" class="form-label">Return Date</label>
+                            <input type="date" class="form-control" name="return_date" id="return_date" required>
+                            <script>document.getElementById('return_date').valueAsDate = new Date();</script>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold">Confirm Return</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Penalty Summary -->
+            {% if booking.actual_return_date %}
+            <div class="card mb-4 {% if booking.penalty_amount > 0 %}border-danger{% else %}border-success{% endif %}">
+                <div
+                    class="card-header {% if booking.penalty_amount > 0 %}bg-danger{% else %}bg-success{% endif %} text-white">
+                    <h5 class="mb-0">Return Summary</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Returned On:</strong> {{ booking.actual_return_date }}</p>
+
+                    {% if booking.penalty_amount > 0 %}
+                    <div class="alert alert-danger">
+                        <h6><i class="bi bi-exclamation-triangle-fill"></i> Late Return Penalty Applied!</h6>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6"><strong>Late Days:</strong></div>
+                            <div class="col-6">{{ booking.late_days }} days</div>
+
+                            <div class="col-6"><strong>Penalty Rate:</strong></div>
+                            <div class="col-6">₹101.00 / day</div>
+
+                            <div class="col-6 mt-2"><strong>Penalty Amount:</strong></div>
+                            <div class="col-6 mt-2 text-danger fw-bold">₹{{ booking.penalty_amount }}</div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success mb-0">
+                        <i class="bi bi-check-circle-fill"></i> Returned on time. No penalty applied.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="d-grid gap-2">
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

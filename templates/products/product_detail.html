@@ -1,0 +1,239 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.title }} - WardrobeShare{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'home' %}" class="text-decoration-none">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'product_list' %}" class="text-decoration-none">Collection</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ product.title }}
+            </li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+
+        <!-- Product Image -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm bg-light overflow-hidden rounded-4">
+                <div class="ratio ratio-1x1 position-relative">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}"
+                             class="w-100 h-100"
+                             style="object-fit: contain;"
+                             alt="{{ product.title }}">
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                            <i class="bi bi-image display-1 opacity-25"></i>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-lg-6">
+            <div class="ps-lg-4">
+
+                <!-- Category & Stock -->
+                <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
+                        {{ product.category.name }}
+                    </span>
+
+                    {% if product.stock_quantity == 0 %}
+                        <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill">
+                            Out of Stock
+                        </span>
+                    {% elif product.stock_quantity <= 2 %}
+                        <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">
+                            Low Stock: {{ product.stock_quantity }} left
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">
+                            Available
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <!-- Title -->
+                <h1 class="display-5 fw-bold mb-2">
+                    {{ product.title }}
+                </h1>
+
+                <!-- Rating & Owner -->
+                <div class="d-flex align-items-center gap-2 mb-4">
+
+                    <div class="text-warning">
+                        {% if average_rating > 0 %}
+                            <i class="bi bi-star-fill"></i>
+                            <span class="fw-bold text-dark">{{ average_rating }}</span>
+                            <span class="text-muted small">
+                                ({{ reviews.count }} reviews)
+                            </span>
+                        {% else %}
+                            <span class="text-muted small">No reviews yet</span>
+                        {% endif %}
+                    </div>
+
+                    <span class="text-muted">|</span>
+
+                    <span class="text-muted small">
+                        Listed by 
+                        <a href="{% url 'profile' product.owner.username %}" 
+                           class="fw-bold text-decoration-none text-dark">
+                            {{ product.owner.username }}
+                        </a>
+                    </span>
+
+                </div>
+
+                <!-- Price -->
+                <div class="mb-4">
+                    <h2 class="display-6 fw-bold text-primary">
+                        ₹{{ product.price_per_day }}
+                        <span class="fs-5 text-muted fw-normal">/day</span>
+                    </h2>
+                </div>
+
+                <!-- Description -->
+                <p class="lead text-muted mb-5">
+                    {{ product.description }}
+                </p>
+
+                <!-- Attributes -->
+                <div class="row g-3 mb-5">
+                    <div class="col-6 col-md-4">
+                        <div class="p-3 border rounded-3 text-center h-100">
+                            <small class="d-block text-muted text-uppercase fw-bold mb-1"
+                                   style="font-size: 0.7rem;">Size</small>
+                            <span class="fw-bold fs-5">{{ product.size }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="p-3 border rounded-3 text-center h-100">
+                            <small class="d-block text-muted text-uppercase fw-bold mb-1"
+                                   style="font-size: 0.7rem;">Condition</small>
+                            <span class="fw-bold fs-5">
+                                {{ product.condition|title }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-3 d-md-flex">
+
+                    {% if user.is_authenticated %}
+
+                        {% if user == product.owner %}
+                            <a href="{% url 'edit_product' product.id %}"
+                               class="btn btn-outline-dark btn-lg px-5">
+                                Edit Product
+                            </a>
+                        {% else %}
+
+                            {% if product.stock_quantity > 0 %}
+                                <a href="{% url 'create_booking' product.id %}"
+                                   class="btn btn-primary btn-lg flex-grow-1 shadow-sm">
+                                    Book Now
+                                </a>
+                            {% else %}
+                                <button class="btn btn-secondary btn-lg flex-grow-1" disabled>
+                                    Currently Unavailable
+                                </button>
+                            {% endif %}
+
+                            <a href="{% url 'start_chat' product.id %}"
+                               class="btn btn-outline-primary btn-lg px-4">
+                                <i class="bi bi-chat-dots"></i> Chat
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{% url 'login' %}"
+                           class="btn btn-primary btn-lg flex-grow-1">
+                            Login to Rent
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="mt-5 pt-5 border-top">
+        <h3 class="fw-bold mb-4">Customer Reviews</h3>
+
+        <div class="row">
+            <div class="col-lg-8">
+
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="card mb-3 border-0 shadow-sm">
+                            <div class="card-body p-4">
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h6 class="fw-bold mb-0">
+                                        <a href="{% url 'profile' review.user.username %}"
+                                           class="text-decoration-none text-dark">
+                                            {{ review.user.username }}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">
+                                        {{ review.created_at|date:"M d, Y" }}
+                                    </small>
+                                </div>
+
+                                <div class="text-warning mb-2">
+                                    {% for i in range_5 %}
+                                        <i class="bi bi-star{% if i <= review.rating %}-fill{% endif %}"></i>
+                                    {% endfor %}
+                                </div>
+
+                                <p class="text-muted mb-0">
+                                    {{ review.comment }}
+                                </p>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-light text-center py-5">
+                        <p class="text-muted mb-0">
+                            No reviews yet. Be the first to rent and review this item!
+                        </p>
+                    </div>
+                {% endif %}
+
+                {% if can_review %}
+                    <div class="mt-4">
+                        <a href="{% url 'add_review' product.id %}"
+                           class="btn btn-outline-primary">
+                            Write a Review
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

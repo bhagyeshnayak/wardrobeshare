@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">My Messages</h2>
+
+    {% if conversations %}
+    <div class="list-group">
+
+        {% for chat in conversations %}
+        <a href="{% url 'chat_room' chat.id %}"
+           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+
+            <div>
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        {{ chat.product.title|default:"Untitled Product" }}
+                    </h5>
+
+                    <small class="text-muted">
+                        {{ chat.updated_at|timesince }} ago
+                    </small>
+                </div>
+
+                <p class="mb-1">
+                    With: <strong>{{ chat.partner.username|default:"Unknown User" }}</strong>
+                </p>
+            </div>
+
+            {% if chat.unread_count and chat.unread_count > 0 %}
+                <span class="badge bg-primary rounded-pill">
+                    {{ chat.unread_count }}
+                </span>
+            {% endif %}
+
+        </a>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+    <div class="alert alert-info">
+        You don't have any conversations yet.
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

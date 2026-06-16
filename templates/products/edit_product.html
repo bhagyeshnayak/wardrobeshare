@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Product - WardrobeShare{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Product</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text"
+                               class="form-control"
+                               id="title"
+                               name="title"
+                               value="{{ product.title }}"
+                               required>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}"
+                                    {% if category.id == product.category.id %}
+                                        selected
+                                    {% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <!-- Size -->
+                        <div class="col-md-6 mb-3">
+                            <label for="size" class="form-label">Size</label>
+                            <select class="form-select" id="size" name="size" required>
+                                {% for value, label in product.SIZE_CHOICES %}
+                                    <option value="{{ value }}"
+                                        {% if value == product.size %}
+                                            selected
+                                        {% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Condition -->
+                        <div class="col-md-6 mb-3">
+                            <label for="condition" class="form-label">Condition</label>
+                            <select class="form-select" id="condition" name="condition" required>
+                                {% for value, label in product.CONDITION_CHOICES %}
+                                    <option value="{{ value }}"
+                                        {% if value == product.condition %}
+                                            selected
+                                        {% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Brand -->
+                        <div class="col-md-6 mb-3">
+                            <label for="brand" class="form-label">Brand</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="brand"
+                                   name="brand"
+                                   value="{{ product.brand|default:'' }}">
+                        </div>
+
+                        <!-- Color -->
+                        <div class="col-md-6 mb-3">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="color"
+                                   name="color"
+                                   value="{{ product.color|default:'' }}">
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-3">
+                        <label for="price_per_day" class="form-label">Price per Day (₹)</label>
+                        <input type="number"
+                               class="form-control"
+                               id="price_per_day"
+                               name="price_per_day"
+                               step="0.01"
+                               min="0"
+                               value="{{ product.price_per_day }}"
+                               required>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control"
+                                  id="description"
+                                  name="description"
+                                  rows="4"
+                                  required>{{ product.description }}</textarea>
+                    </div>
+
+                    <!-- Image -->
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Product Image</label>
+
+                        {% if product.image %}
+                            <div class="mb-2">
+                                <img src="{{ product.image.url }}"
+                                     alt="Current Image"
+                                     class="img-thumbnail"
+                                     style="max-height: 200px;">
+                            </div>
+                        {% endif %}
+
+                        <input type="file"
+                               class="form-control"
+                               id="image"
+                               name="image"
+                               accept="image/*">
+
+                        <div class="form-text">
+                            Leave blank to keep current image
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            Save Changes
+                        </button>
+
+                        <a href="{% url 'product_detail' product.pk %}"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

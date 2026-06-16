@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}WardrobeShare - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="container py-4">
+    <div class="hero-section text-center text-lg-start d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 z-2">
+                    <div class="hero-overlay shadow-sm">
+                        <span class="badge bg-primary bg-opacity-25 text-primary mb-3 px-3 py-2 rounded-pill">New
+                            Collection 2026</span>
+                        <h1 class="display-3 fw-bold mb-4" style="line-height: 1.2;">
+                            Rent Luxury,<br>Own the <span class="text-primary">Moment.</span>
+                        </h1>
+                        <p class="lead text-muted mb-5">
+                            Access a limitless wardrobe of premium fashion without the premium price tag.
+                            Wear it, love it, return it.
+                        </p>
+                        <div
+                            class="d-flex gap-3 flex-column flex-sm-row justify-content-center justify-content-lg-start">
+                            <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg px-5 shadow">Browse
+                                Collection</a>
+                            <a href="#" class="btn btn-light btn-lg px-5 text-primary fw-bold">How it Works</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 d-none d-lg-block position-relative">
+                    <!-- Decorative Icon since we don't have a hero image -->
+                    <div class="text-center opacity-25" style="color: white; transform: rotate(-10deg);">
+                        <i class="bi bi-gem" style="font-size: 15rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Highlights -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Curated Categories</h2>
+            <p class="text-muted">Explore our most popular collections</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            {% for category in categories %}
+            <div class="col-6 col-md-3">
+                <a href="{% url 'product_list' %}?category={{ category.id }}" class="text-decoration-none">
+                    <div class="card h-100 text-center py-5 border-0 shadow-sm bg-light card-hover">
+                        <div class="card-body">
+                            <div class="mb-3 text-primary opacity-50">
+                                <i class="bi bi-tag-fill fs-1"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-0">{{ category.name }}</h5>
+                            <small class="text-muted">View Items</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Trending Now</h2>
+                <p class="text-muted mb-0">Fresh looks for the season</p>
+            </div>
+            <a href="{% url 'product_list' %}" class="btn btn-outline-dark btn-sm rounded-pill px-4">View All</a>
+        </div>
+
+        {% if featured_products %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for product in featured_products %}
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <a href="{% url 'product_detail' product.id %}" class="position-relative d-block overflow-hidden"
+                        style="padding-top: 125%;">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="position-absolute top-0 start-0 w-100 h-100"
+                            style="object-fit: cover; transition: transform 0.5s;" alt="{{ product.title }}">
+                        {% else %}
+                        <div
+                            class="position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center text-muted">
+                            <i class="bi bi-image fs-1"></i>
+                        </div>
+                        {% endif %}
+
+                        {% if product.category %}
+                        <span class="position-absolute top-0 start-0 m-2 badge bg-white text-dark shadow-sm">
+                            {{ product.category.name }}
+                        </span>
+                        {% endif %}
+                    </a>
+
+                    <div class="card-body p-3">
+                        <h5 class="card-title fw-bold text-truncate mb-2">
+                            <a href="{% url 'product_detail' product.id %}"
+                                class="text-dark text-decoration-none stretched-link">
+                                {{ product.title }}
+                            </a>
+                        </h5>
+
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="price-tag">₹{{ product.price_per_day }}</span>
+                                <small class="text-muted">/day</small>
+                            </div>
+                            <small class="text-muted">
+                                <i class="bi bi-person-fill"></i> {{ product.owner.username }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <p class="text-muted">No featured products available at the moment.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

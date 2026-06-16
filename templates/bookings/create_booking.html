@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Book {{ product.title }} - WardrobeShare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="mb-4">Book Product</h2>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4>{{ product.title }}</h4>
+                            <p class="text-muted">{{ product.description|truncatewords:20 }}</p>
+                            <p class="h5 text-primary">₹{{ product.price_per_day }} per day</p>
+                        </div>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" required
+                                min="{{ today }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" required
+                                min="{{ today }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes (Optional)</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3"
+                                placeholder="Any special requests or notes..."></textarea>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Confirm Booking</button>
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('start_date').setAttribute('min', today);
+    document.getElementById('end_date').setAttribute('min', today);
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,44 @@
+--- PRODUCTS ---
+ID: 6 | Title: Elegant Red Evening Dress
+ID: 7 | Title: Classic Black Suit
+ID: 8 | Title: Designer Leather Jacket
+ID: 9 | Title: Floral Summer Dress
+ID: 10 | Title: Premium Designer Handbag
+ID: 11 | Title: Leather Jacket
+ID: 12 | Title: Red Evening Dress
+ID: 13 | Title: T-Shirt
+ID: 19 | Title: Jacket
+
+--- BOOKINGS ---
+ID: 1 | Start: 2026-01-29 | End: 2026-01-30
+ID: 2 | Start: 2026-02-01 | End: 2026-02-04
+ID: 3 | Start: 2026-01-21 | End: 2026-01-30
+ID: 4 | Start: 2026-06-01 | End: 2026-06-02
+ID: 5 | Start: 2026-01-22 | End: 2026-01-24
+ID: 6 | Start: 2026-01-22 | End: 2026-01-24
+ID: 7 | Start: 2026-01-22 | End: 2026-01-31
+ID: 8 | Start: 2026-01-23 | End: 2026-01-30
+ID: 9 | Start: 2026-01-22 | End: 2026-01-24
+ID: 10 | Start: 2026-01-31 | End: 2026-02-02
+ID: 11 | Start: 2026-01-22 | End: 2026-01-30
+ID: 12 | Start: 2026-01-23 | End: 2026-01-30
+ID: 13 | Start: 2026-01-22 | End: 2026-01-29
+ID: 14 | Start: 2026-01-22 | End: 2026-01-29
+ID: 15 | Start: 2026-01-21 | End: 2026-01-29
+ID: 16 | Start: 2026-01-21 | End: 2026-01-29
+ID: 17 | Start: 2026-01-31 | End: 2026-02-02
+ID: 18 | Start: 2026-01-22 | End: 2026-01-30
+ID: 19 | Start: 2026-01-22 | End: 2026-01-30
+ID: 20 | Start: 2026-01-23 | End: 2026-01-31
+ID: 21 | Start: 2026-01-23 | End: 2026-01-31
+ID: 22 | Start: 2026-01-23 | End: 2026-01-31
+ID: 23 | Start: 2026-01-27 | End: 2026-01-29
+ID: 24 | Start: 2026-01-27 | End: 2026-01-30
+ID: 25 | Start: 2026-01-27 | End: 2026-01-30
+ID: 26 | Start: 2026-01-27 | End: 2026-01-30
+ID: 27 | Start: 2026-01-27 | End: 2026-01-30
+ID: 28 | Start: 2026-01-27 | End: 2026-01-31
+ID: 29 | Start: 2026-01-27 | End: 2026-01-29
+ID: 30 | Start: 2026-01-29 | End: 2026-01-30
+ID: 31 | Start: 2026-01-29 | End: 2026-01-30
+ID: 32 | Start: 2026-01-29 | End: 2026-01-31

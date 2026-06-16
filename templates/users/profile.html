@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile_user.username }} | Profile{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Profile Header -->
+    <div class="card shadow-sm border-0 rounded-4 mb-5">
+        <div class="card-body p-5">
+
+            <div class="row align-items-center">
+
+                <!-- Avatar -->
+                <div class="col-md-2 text-center">
+                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:100px;height:100px;font-size:40px;">
+                        {{ profile_user.username|first|upper }}
+                    </div>
+                </div>
+
+                <!-- User Info -->
+                <div class="col-md-7">
+                    <h2 class="fw-bold mb-2">
+                        {{ profile_user.username }}
+                    </h2>
+
+                    <p class="text-muted mb-1">
+                        <strong>Email:</strong> {{ profile_user.email }}
+                    </p>
+
+                    <p class="mb-2">
+                        <span class="badge bg-dark text-white px-3 py-2">
+                            Role: {{ profile_user.role|title }}
+                        </span>
+                    </p>
+
+                    <!-- Status Badges -->
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        {% if profile_user.is_active %}
+                            <span class="badge bg-success px-3 py-2">
+                                ✔ Active
+                            </span>
+                        {% else %}
+                            <span class="badge bg-danger px-3 py-2">
+                                Inactive
+                            </span>
+                        {% endif %}
+
+                        {% if profile_user.is_staff %}
+                            <span class="badge bg-info text-dark px-3 py-2">
+                                Staff
+                            </span>
+                        {% endif %}
+
+                        {% if profile_user.is_superuser %}
+                            <span class="badge bg-warning text-dark px-3 py-2">
+                                Superuser
+                            </span>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="col-md-3 text-center">
+                    <div class="border rounded-3 p-3">
+                        <h4 class="fw-bold mb-0">
+                            {{ listed_products.count }}
+                        </h4>
+                        <small class="text-muted">Products Listed</small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Listed Products Section -->
+    <h3 class="fw-bold mb-4">Listed Products</h3>
+
+    {% if listed_products %}
+    <div class="row g-4">
+
+        {% for product in listed_products %}
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+
+                {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top"
+                     style="height:250px;object-fit:cover;">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold">
+                        <a href="{% url 'product_detail' product.id %}"
+                           class="text-decoration-none text-dark">
+                            {{ product.title }}
+                        </a>
+                    </h5>
+
+                    <p class="text-primary fw-bold mb-1">
+                        ₹{{ product.price_per_day }} / day
+                    </p>
+
+                    <span class="badge bg-light text-dark border">
+                        {{ product.category.name }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+    {% else %}
+
+        <div class="alert alert-light text-center py-5 shadow-sm rounded-4">
+            <p class="mb-0 text-muted">
+                This user hasn't listed any products yet.
+            </p>
+        </div>
+
+    {% endif %}
+
+</div>
+{% endblock %}

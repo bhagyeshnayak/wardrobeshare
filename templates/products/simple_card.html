@@ -1,0 +1,39 @@
+<div class="col">
+    <div class="card h-100 shadow-sm border-primary">
+        <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" style="height: 250px; object-fit: cover;"
+                alt="{{ product.title }}">
+            {% else %}
+            <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 250px;">
+                No Image
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <!-- DEBUG SECTION START -->
+                <p class="text-danger small">DEBUG: ID={{ product.id }}</p>
+                <!-- DEBUG SECTION END -->
+
+                <h5 class="card-title fw-bold">{{ product.title }}</h5>
+
+                <p class="card-text text-primary fw-bold mb-1">₹{{ product.price_per_day }}/day</p>
+
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <small class="text-muted">Category: {{ product.category.name }}</small>
+                    <small class="text-muted"><i class="bi bi-person"></i> {{ product.owner.username }}</small>
+                </div>
+
+                <div class="mt-2">
+                    {% if product.stock_quantity == 0 %}
+                    <span class="badge bg-danger">Sold Out</span>
+                    {% else %}
+                    <span class="badge bg-success">Available</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-footer bg-white border-top-0">
+                <button class="btn btn-outline-primary w-100">View Details</button>
+            </div>
+        </a>
+    </div>
+</div>

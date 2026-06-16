@@ -1,0 +1,54 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django stuff:
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env
+.env/
+active_env/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
