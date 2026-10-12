@@ -24,11 +24,11 @@ Wardrobe Share is a community-driven, peer-to-peer clothing rental web applicati
 *   **Database:** SQLite (Default for development), easily migratable to PostgreSQL
 *   **Payment Gateway:** Stripe API
 *   **Email Client:** SMTP (Gmail configuration)
-*   **Frontend:** HTML5, CSS3 (Vanilla + Bootstrap components), JavaScript
+*   **Frontend:** HTML5, CSS3,java (Vanilla + Bootstrap components), JavaScript
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Structure 
 
 ```text
 wardrobeshare/
